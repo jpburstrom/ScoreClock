@@ -76,7 +76,7 @@ ScoreClock : Clock {
 	}
 
     *makeScore {|maxTime=60,padding=0|
-        var dt = 0, item, b, end = 0, time = 0, clock;
+        var dt = 0, item, b, end = maxTime, time = 0, clock;
         while {queue.notEmpty and: {time<maxTime}} {
             time = queue.topPriority;
             #item, clock = queue.pop;
@@ -92,7 +92,7 @@ ScoreClock : Clock {
             if(dt.isNumber) {
                 clock.sched(dt, item);
             };
-            if(dt.isNil) {
+            if(dt.isNil and: { clock.beats > 0 }) {
                 end = clock.beats;
             };
         };
