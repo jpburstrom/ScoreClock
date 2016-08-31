@@ -113,5 +113,11 @@ ScoreClock : Clock {
    *beats { ^default.beats }
    *secs2beats { | secs | ^default.secs2beats(secs)  }
    *beats2secs { | secs | ^default.beats2secs(secs)  }
+
+   *addSynthDefs { |library=\global|
+        SynthDescLib.all[library].synthDescs.do { |x|
+            score.add([0] ++ Server.default.makeBundle(false, { x.send }));
+        }
+    }
 }
 
