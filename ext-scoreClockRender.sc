@@ -55,6 +55,9 @@
         arg outputFilePath, duration = 999, padding=0, sampleRate = 44100,
 			headerFormat, sampleFormat = "int24", inputFilePath,
 			prependScore, args, action;
+
+        this.stop;
+
         { this.play }.scoreClockRender(
             outputFilePath, duration, padding, sampleRate, headerFormat,
             sampleFormat, inputFilePath, prependScore, args, action
