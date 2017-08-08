@@ -2,13 +2,15 @@
     scoreClockRender {
         arg outputFilePath, duration = 999, padding=0, sampleRate = 44100,
 			headerFormat, sampleFormat = "int24", inputFilePath,
-			prependScore, args, action;
+			prependScore, args, options, action;
 
-        var tmpfile, score, clock = TempoClock.default; //Temporary clock
+        var tmpfile, score, tempo, sc, clock = TempoClock.default; //Temporary clock
 
+        tempo = clock.tempo;
+        sc = ScoreClock(tempo);
         ScoreClock.beginScore;
         ScoreClock.addSynthDefs;
-        TempoClock.default = ScoreClock;
+        TempoClock.default = sc;
 
         this.valueArgsArray(args);
 
@@ -38,13 +40,16 @@
 
         score.recordNRT(
             tmpfile,
-            outputFilePath, inputFilePath,
+            outputFilePath, inputFilePath, sampleRate, headerFormat, sampleFormat, options,
 
             duration: ScoreClock.score.score.last[0], action: {
                 action.value;
                 File.delete(tmpfile);
             }
         );
+
+        //Reset tempo to original
+        clock.tempo = tempo;
 
 
     }
@@ -54,13 +59,13 @@
     scoreClockRender {
         arg outputFilePath, duration = 999, padding=0, sampleRate = 44100,
 			headerFormat, sampleFormat = "int24", inputFilePath,
-			prependScore, args, action;
+			prependScore, args, options, action;
 
         this.stop;
 
         { this.play }.scoreClockRender(
             outputFilePath, duration, padding, sampleRate, headerFormat,
-            sampleFormat, inputFilePath, prependScore, args, action
+            sampleFormat, inputFilePath, prependScore, args, options, action
         )
     }
 }
