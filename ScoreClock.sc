@@ -39,7 +39,8 @@ ScoreClock : Clock {
     }
 
     *beginScore {
-        server = Server.fromName(\ScoreDummy).serverRunning_(true);
+        server = Server.fromName(\ScoreDummy);
+        server.statusWatcher.serverRunning_(true);
         savedServer = Server.default;
         Server.default = server;
         queue = PriorityQueue.new;
@@ -99,7 +100,7 @@ ScoreClock : Clock {
         b = server.closeBundle(false);
         if(b.notEmpty) { score.add([0] ++ b) };
         score.add([end+padding,[\c_set,0,0]]);
-        server.serverRunning = false; // "stop" the dummy server
+        server.statusWatcher.serverRunning = false; // "stop" the dummy server
         Server.default = savedServer;
         TempoClock.default.tempo = 1; //FIXME: better to fix Score to default to tempo 1 (seconds).
         ^score;
