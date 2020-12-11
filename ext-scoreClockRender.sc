@@ -9,7 +9,7 @@
         tempo = clock.tempo;
         sc = ScoreClock(tempo);
         ScoreClock.beginScore;
-        ScoreClock.addSynthDefs;
+        ScoreClock.score.addSynthDefs;
         TempoClock.default = sc;
 
         this.valueArgsArray(args);
